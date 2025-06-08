@@ -21,12 +21,24 @@ export interface AssetHistory {
 
 export const getTopAssets = async (): Promise<Asset[]> => {
   const response = await fetch(`${COINCAP_API_BASE}/assets?limit=50`);
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch assets: ${response.status} ${response.statusText}`
+    );
+  }
   const data = await response.json();
   return data.data;
 };
 
 export const getAssetHistory = async (id: string): Promise<AssetHistory[]> => {
-  const response = await fetch(`${COINCAP_API_BASE}/assets/${id}/history?interval=h1`);
+  const response = await fetch(
+    `${COINCAP_API_BASE}/assets/${id}/history?interval=h1`
+  );
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch history: ${response.status} ${response.statusText}`
+    );
+  }
   const data = await response.json();
   return data.data;
 };
